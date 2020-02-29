@@ -1,0 +1,196 @@
+
+{% extends "base.html" %}
+
+{%block css%}
+<style>
+
+</style>
+{%endblock%}
+
+{% block head %}<title>Maintenance_Greasing</title>{%endblock%}
+
+{% block content %}
+
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="">{{selected_index}} & {{selected_hour.pub_date}} & ECT : {{selected_hour.ECT}}h & MRT : {{selected_hour.MRT}}h</a>
+</nav>
+  <hr>
+<h4>Grease Status</h4>
+<table class="table table-striped" style="width:1500px; margin-left: 20PX;">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">TYPE</th>
+        <th scope="col">Q'ty</th>
+        <th scope="col">Expire Date</th>
+        <th scope="col">Lectra Supply</th>
+        <th scope="col">Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for list in selected_grease %}
+        <tr class="table-row" data-href="{% url 'maintenance:greasing_modify' index_pk list.id%}" style="cursor:pointer;" 
+        onmouseover="setBackground(this, '#e8bebe');" 
+        onmouseout="restoreBackground(this);">
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{list.grease_type}}</td>
+        <td>{{list.grease_pcs}}</td>
+        <td>{{list.grease_expire}}</td>
+        <td>{{list.grease_supply}}</td>
+        <td>{{list.grease_condition}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="add_grease" style="margin-left:1250px; ">
+  <a href="{% url 'maintenance:greasing_add' index_pk %}"><button style="width:180px;" type="button"  class="btn btn-success">Add item</button></a>
+</div>
+<hr>
+<!-- ===================================================================================================================== -->
+ 
+
+
+<h4 style="margin-left: 50px;">Grease injection work table</h4>
+ <table class="table" style="width:1500px; margin-left: 20PX;">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th style="width:390px;" scope="col">Work Point</th>
+      <th scope="col">Last Date</th>
+      <th scope="col">ECT Diff</th>
+      <th scope="col">MRT Diff</th>
+      <th scope="col">UPDATE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td>
+          <div class="form-check">
+          
+          <label class="form-check-label" for="">
+            Head / Vibration_Bearing / G12
+          </label>
+        </div>
+      </td>
+        <td>{{inject_date_vibration_bearing}}</td>
+        <td>{{inject_ECT_vibration_bearing}}</td>
+        <td>{{inject_MRT_vibration_bearing}}</td>
+        <td><a href="{%url 'maintenance:greasing_VibrationBearing' index_pk %}"><button type="button" class="btn btn-primary">UPDATE</button></a></td>
+    </tr>
+
+    <tr>
+      <th scope="row">2</th>
+      <td>
+        <div class="form-check">
+        
+        <label class="form-check-label" for="">
+          Head / Connecting Rod / G11
+        </label>
+      </div>
+    </td>
+      <td>{{inject_date_connecting}}</td>
+      <td>{{inject_ECT_connecting}}</td>
+      <td>{{inject_MRT_connecting}}</td>
+      <td><a href="{%url 'maintenance:greasing_Connecting' index_pk %}"><button type="button" class="btn btn-primary">UPDATE</button></a></td>
+  </tr>
+
+  <th scope="row">3</th>
+  <td>
+    <div class="form-check">
+    
+    <label class="form-check-label" for="">
+      Head / Vibration Rail / G10
+    </label>
+  </div>
+</td>
+  <td>{{inject_date_vibrail}}</td>
+  <td>{{inject_ECT_vibrail}}</td>
+  <td>{{inject_MRT_vibrail}}</td>
+  <td><a href="{%url 'maintenance:Injection_vibrail' index_pk %}"><button type="button" class="btn btn-primary">UPDATE</button></a></td>
+</tr>
+
+
+<th scope="row">4</th>
+<td>
+  <div class="form-check">
+  
+  <label class="form-check-label" for="">
+    X AXIS / Rail / G10
+  </label>
+</div>
+</td>
+<td>{{inject_date_xaxis}}</td>
+<td>{{inject_ECT_xaxis}}</td>
+<td>{{inject_MRT_xaxis}}</td>
+<td><a href="{%url 'maintenance:injection_xaxis' index_pk %}"><button type="button" class="btn btn-primary">UPDATE</button></a></td>
+</tr>
+
+
+<th scope="row">5</th>
+<td>
+  <div class="form-check">
+  
+  <label class="form-check-label" for="">
+    Y AXIS / Rail / G10
+  </label>
+</div>
+</td>
+<td>{{inject_date_vaccum}}</td>
+<td>{{inject_ECT_vaccum}}</td>
+<td>{{inject_MRT_vaccum}}</td>
+<td><a href="{%url 'maintenance:injection_vaccum' index_pk %}"><button type="button" class="btn btn-primary">UPDATE</button></a></td>
+</tr>
+
+
+
+  </tbody>
+</table>
+
+<form action="{% url 'maintenance:injection_comment' index_pk %}" method="POST">
+  {% csrf_token %}
+
+<div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Comment</span>
+  </div>
+  <textarea class="form-control" name="comment"  rows="3" aria-label="With textarea" placeholder="{{inject_pub_date}} : {{inject_comment|truncatewords:20}}"></textarea>
+</div>
+
+</table>
+<div class="add_grease" style="margin-left:1250px;">
+<button style="width:180px; margin-top:20px;" type="submit"  class="btn btn-success">Comment SAVE</button>
+
+</div>
+</form>
+
+{% endblock %}
+
+
+
+{% block script %}
+<script>
+// mouse courser change on table row 
+$(document).ready(function($) {
+      $(".table-row").click(function() {
+         window.document.location = $(this).data("href");
+         });
+     });
+
+
+
+    // row color change, mouse on table  
+      function setBackground(me, color)
+      {
+        me.setAttribute("data-oldback", me.style.background);       
+        me.style.background=color;
+      }
+
+      function restoreBackground(me)
+      {
+          me.style.background = me.getAttribute("data-oldback");
+      }
+
+</script>
+
+{% endblock %}

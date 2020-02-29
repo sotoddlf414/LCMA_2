@@ -1,0 +1,1949 @@
+
+{% extends "base.html" %}
+
+{%block css%}
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Nanum+Pen+Script|Simonetta&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab&display=swap');
+
+ a{
+   text-decoration: none;
+ }
+
+
+
+  .routine_flop{
+    
+    margin-left: 30px;
+    color : black;
+    font-family: 'Roboto Slab';
+    letter-spacing: 3px;
+    word-spacing: 2px;
+    
+  }
+
+  </style>
+{%endblock%}
+
+{% block head %}<title>Maintenance</title>{%endblock%}
+
+{% block content %}
+
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href=""><h4 style="margin-left: 35px;">Routine Check</h4>{{selected_index}} & {{selected_hour.pub_date}} & ECT : {{selected_hour.ECT}}h & MRT : {{selected_hour.MRT}}h</a>
+</nav>
+<hr>
+
+
+
+
+
+<!-- --------------------------------------------HEAD / Press_foot ass'y----------------------------------------------------------------------------- -->
+
+
+      <div id="A" style="display: block; "> 
+    
+        <a class="routine_flop" onclick="layer_toggle(document.getElementById('A')); layer_toggle(document.getElementById('B')); return false;" href="#">
+       
+        Head : Press Foot | ECT Diff : {{pressfoot_guide_ECT_Diff}} | MRT Diff :  {{pressfoot_guide_MRT_Diff}} | Last Check : {{selected_pressfoot.check_date|date:"Y-m-d"}},
+        ECT:{{selected_pressfoot.checked_ECT}}, MRT:{{selected_pressfoot.checked_MRT}} | Comment:{{selected_pressfoot.comment|truncatechars:35}}
+      </a> 
+   
+      </div> 
+
+      <hr>
+
+       <div id="B" style="display: none; margin-left:100px; "> 
+       <a onclick="layer_toggle(document.getElementById('A')); layer_toggle(document.getElementById('B')); return false;" href="#"><h3 style="color:black;">Head : Press Foot / Last Check : {{selected_pressfoot.check_date}}</h3></a>  
+      <hr>
+
+
+<form action="{% url 'maintenance:routine_pressfoot' selected_index.id %}" method="POST">
+{%csrf_token%}
+      <div class="col-md-12" style="text-align: left;">
+  Press.Foot Ass'y</h5>
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+     {% load static %}
+      <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+        <img class="bd-placeholder-img" width="200" height="350" src="{% static 'image/Pressfoot.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+      </div>
+
+      <div class="col p-4 d-flex flex-column position-static">
+    
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">item</th>
+              <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+              <th scope="col">Last Record</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <th scope="row">1</th>
+              <td>Bearing Condition </td>
+              <td>
+                <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="pressfoot_Bearing" id="pressfoot_Bearing" value="1" checked>
+                <label class="form-check-label" for="pressfoot_Bearing">Normal</label>
+              </div>
+            </td>
+              <td>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="pressfoot_Bearing" id="pressfoot_Bearing" value="0">
+                  <label class="form-check-label" for="pressfoot_Bearing">Abnormal</label>
+                </div>
+              </td>
+              <td>{%if selected_pressfoot.bearing_condition%}Normal{% else %}Abnormal{% endif %}
+              </td>
+            </tr>
+
+
+  
+  <tr>
+      <th scope="row">2</th>
+      <td>Moving Condition</td>
+      <td>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="pressfoot_Moving" id="pressfoot_Moving" value="1" checked>
+        <label class="form-check-label" for="pressfoot_Moving">Normal</label>
+      </div>
+    </td>
+      <td>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="pressfoot_Moving" id="pressfoot_Moving" value="0">
+          <label class="form-check-label" for="pressfoot_Moving">Abnormal</label>
+        </div>
+      </td>
+      <td>{%if selected_pressfoot.moving_condition%}Normal{% else %}Abnormal{% endif %}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">3</th>
+      <td>Lubrication</td>
+      <td>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="pressfoot_Lubrication" id="pressfoot_Lubrication" value="1" checked>
+        <label class="form-check-label" for="pressfoot_Lubrication">Yes</label>
+      </div>
+    </td>
+      <td>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="pressfoot_Lubrication" id="pressfoot_Lubrication" value="0">
+          <label class="form-check-label" for="pressfoot_Lubrication">No</label>
+        </div>
+      </td>
+      <td>{%if selected_pressfoot.lubrication_condition%}Yes{% else %}No{% endif %}</td>
+    </tr>
+
+    <tr>
+      <th scope="row">4</th>
+      <td>Cleaning</td>
+      <td>
+        <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="pressfoot_Cleaning" id="pressfoot_Cleaning" value="1" checked>
+        <label class="form-check-label" for="pressfoot_Cleaning">Yes</label>
+      </div>
+    </td>
+      <td>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="pressfoot_Cleaning" id="pressfoot_Cleaning" value="0">
+          <label class="form-check-label" for="pressfoot_Cleaning">No</label>
+        </div>
+      </td>
+      <td>{%if selected_pressfoot.cleaning_condition%}Yes{% else %}No{% endif %}</td>
+    </tr>
+          </tbody>
+        </table>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Comment</span>
+          </div>
+          <textarea class="form-control" aria-label="With textarea" name="pressfoot_Comment" placeholder="{{selected_pressfoot.comment}}"></textarea>
+         
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+<!-- --------------------------------------------HEAD / Blade Guide----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A2" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A2')); layer_toggle(document.getElementById('B2')); return false;" href="#">
+      
+      Head : Blade Guide  | ECT Diff : {{blguide_ECT_Diff}} | MRT Diff :  {{blguide_MRT_Diff}} | Last Check : {{selected_bladeguide.check_date|date:"Y-m-d"}},
+      ECT:{{selected_bladeguide.checked_ECT}}, MRT:{{selected_bladeguide.checked_MRT}} | Comment: {{selected_bladeguide.comment|truncatechars:35}}                                                                                                   
+    
+  </a> 
+</div> 
+  <hr>
+
+   <div id="B2" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A2')); layer_toggle(document.getElementById('B2')); return false;" href="#"><h3 style="color:black;">Head : Blade Guide</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_bladeguide' selected_index.id %}" method="POST">
+ {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+Blade Guide</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="200" height="450" src="{% static 'image\BladeGuide.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Plate Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="guide_Plate" id="guide_Plate" value="1" checked>
+            <label class="form-check-label" for="guide_Plate">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="guide_Plate" id="guide_Plate" value="0">
+              <label class="form-check-label" for="guide_Plate">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_bladeguide.plate_condition%}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Roller Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="guide_Roller" id="guide_Roller" value="1" checked>
+    <label class="form-check-label" for="guide_Roller">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="guide_Roller" id="guide_Roller" value="0">
+      <label class="form-check-label" for="guide_Roller">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_bladeguide.roller_condition%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+<tr>
+  <th scope="row">3</th>
+  <td>Fixed Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="guide_Fixed" id="guide_Fixed" value="1" checked>
+    <label class="form-check-label" for="guide_Fixed">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="guide_Fixed" id="guide_Fixed" value="0">
+      <label class="form-check-label" for="guide_Fixed">No</label>
+    </div>
+  </td>
+  <td>{%if selected_bladeguide.fixed_condition%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+<tr>
+  <th scope="row">4</th>
+  <td>Cleaning</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="guide_Cleaning" id="guide_Cleaning" value="1" checked>
+    <label class="form-check-label" for="guide_Cleaning">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="guide_Cleaning" id="guide_Cleaning" value="0">
+      <label class="form-check-label" for="guide_Cleaning">No</label>
+    </div>
+  </td>
+  <td>{%if selected_bladeguide.cleaning_condition%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+      </tbody>
+    </table>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="guide_Comment" placeholder="{{selected_bladeguide.comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+<!-- --------------------------------------------HEAD / Shapning Parts----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A3" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A3')); layer_toggle(document.getElementById('B3')); return false;" href="#">
+ 
+      Head : Sarpning Parts  | ECT Diff : {{sharpning_ECT_Diff}} | MRT Diff :  {{sharpning_MRT_Diff}} | Last Check : {{selected_sharpning.check_date|date:"Y-m-d"}},
+      ECT:{{selected_sharpning.checked_ECT}}, MRT:{{selected_sharpning.checked_MRT}} | Comment: {{selected_sharpning.comment|truncatechars:35}}
+     
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B3" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A3')); layer_toggle(document.getElementById('B3')); return false;" href="#"><h3 style="color:black;">Head : Shapning Parts</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_sharpningArm' selected_index.id %}" method="POST">
+{% csrf_token%}
+  <div class="col-md-12" style="text-align: left;">
+Shapning Parts</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="200" height="450" src="{% static 'image\Sharpning_arm.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Pully Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="sharpning_Pully" id="sharpning_Pully" value="1" checked>
+            <label class="form-check-label" for="sharpning_Pully">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="sharpning_Pully" id="sharpning_Pully" value="0">
+              <label class="form-check-label" for="sharpning_Pully">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_sharpning.Sharpning_Pully%}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Sharpning Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="Sharpning" id="Sharpning" value="1" checked>
+    <label class="form-check-label" for="Sharpning">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="Sharpning" id="Sharpning" value="0">
+      <label class="form-check-label" for="Sharpning">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_sharpning.Sharpning%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Wire Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="Sharpning_wire" id="Sharpning_wire" value="1" checked>
+    <label class="form-check-label" for="Sharpning_wire">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="Sharpning_wire" id="Sharpning_wire" value="0">
+      <label class="form-check-label" for="Sharpning_wire">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_sharpning.Sharpning_wire%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">4</th>
+  <td>Arm Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="Sharpning_Arm" id="Sharpning_Arm" value="1" checked>
+    <label class="form-check-label" for="Sharpning_Arm">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="Sharpning_Arm" id="Sharpning_Arm" value="0">
+      <label class="form-check-label" for="Sharpning_Arm">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_sharpning.Sharpning_Arm%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">5</th>
+  <td>Cleaning</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="sharpning_Cleaning" id="sharpning_Cleaning" value="1" checked>
+    <label class="form-check-label" for="sharpning_Cleaning">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="sharpning_Cleaning" id="sharpning_Cleaning" value="0">
+      <label class="form-check-label" for="sharpning_Cleaning">No</label>
+    </div>
+  </td>
+  <td>{%if selected_sharpning.sharpning_Cleaning%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+      </tbody>
+    </table>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="sharpning_Comment" placeholder="{{selected_sharpning.comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+<!-- --------------------------------------------HEAD / Vibration Parts----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A4" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A4')); layer_toggle(document.getElementById('B4')); return false;" href="#">
+  
+      Head : Vibration Parts  | ECT Diff : {{vibration_ECT_Diff}} | MRT Diff :  {{vibration_MRT_Diff}} | Last Check : {{selected_vibration.check_date|date:"Y-m-d"}},
+      ECT:{{selected_vibration.checked_ECT}}, MRT:{{selected_vibration.checked_MRT}} | Comment:{{selected_vibration.comment|truncatechars:35}}
+     
+    </a> 
+  </div> 
+  <hr>
+
+   <div id="B4" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A4')); layer_toggle(document.getElementById('B4')); return false;" href="#"><h3 style="color:black;">Head : Vibration Parts</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_vibration' selected_index.id %}" method="POST">
+{% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+Vibration Parts</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="200" height="450" src="{% static 'image\Vibration.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Moving Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="vibration_moving" id="vibration_moving" value="1" checked>
+            <label class="form-check-label" for="vibration_moving">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="vibration_moving" id="vibration_moving" value="0">
+              <label class="form-check-label" for="vibration_moving">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_vibration.vibration_moving %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Vibration Bearing Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="vibration_vibearing" id="vibration_vibearing" value="1" checked>
+    <label class="form-check-label" for="vibration_vibearing">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="vibration_vibearing" id="vibration_vibearing" value="0">
+      <label class="form-check-label" for="vibration_vibearing">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_vibration.vibration_vibearing%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Needle Bearing Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="vibration_nibearing" id="vibration_nibearing" value="1" checked>
+    <label class="form-check-label" for="vibration_nibearing">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="vibration_nibearing" id="vibration_nibearing" value="0">
+      <label class="form-check-label" for="vibration_nibearing">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_vibration.vibration_nibearing%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">4</th>
+  <td>Belt Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="vibration_belt" id="vibration_belt" value="1" checked>
+    <label class="form-check-label" for="vibration_belt">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="vibration_belt" id="vibration_belt" value="0">
+      <label class="form-check-label" for="vibration_belt">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_vibration.vibration_belt%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">5</th>
+  <td>Cleaning</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="vibration_Cleaning" id="vibration_Cleaning" value="1" checked>
+    <label class="form-check-label" for="vibration_Cleaning">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="vibration_Cleaning" id="vibration_Cleaning" value="0">
+      <label class="form-check-label" for="vibration_Cleaning">No</label>
+    </div>
+  </td>
+  <td>{%if selected_vibration.vibration_Cleaning%}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+      </tbody>
+    </table>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="vibration_Comment" placeholder="{{selected_vibration.comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+<!-- --------------------------------------------HEAD / Rotation BLock----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A5" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A5')); layer_toggle(document.getElementById('B5')); return false;" href="#">
+ 
+      Head : Rotation BLock  | ECT Diff : {{rotation_ECT_Diff}} | MRT Diff :  {{rotation_MRT_Diff}} | Last Check : {{selected_rotation.check_date|date:"Y-m-d"}},
+      ECT:{{selected_rotation.checked_ECT}}, MRT:{{selected_rotation.checked_MRT}} | Comment:{{selected_rotation.rotation_Comment|truncatechars:35}}
+ 
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B5" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A5')); layer_toggle(document.getElementById('B5')); return false;" href="#"><h3 style="color:black;">Head : Rotation BLock</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_rotation' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+Rotation BLock</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="200" height="450" src="{% static 'image\Rotationblock.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Moving Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rotation_moving" id="rotation_moving" value="1" checked>
+            <label class="form-check-label" for="rotation_moving">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rotation_moving" id="rotation_moving" value="0">
+              <label class="form-check-label" for="rotation_moving">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_rotation.rotation_moving %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Belt Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="rotation_Belt" id="rotation_Belt" value="1" checked>
+    <label class="form-check-label" for="rotation_Belt">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="rotation_Belt" id="rotation_Belt" value="0">
+      <label class="form-check-label" for="">Abnormal</label>
+    </div>rotation_Belt
+  </td>
+  <td>{%if selected_rotation.rotation_Belt %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Fixed Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="rotation_Fixed" id="rotation_Fixed" value="1" checked>
+    <label class="form-check-label" for="rotation_Fixed">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="rotation_Fixed" id="rotation_Fixed" value="0">
+      <label class="form-check-label" for="rotation_Fixed">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_rotation.rotation_Fixed %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">5</th>
+  <td>Cleaning</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="rotation_cleaning" id="rotation_cleaning" value="1" checked>
+    <label class="form-check-label" for="rotation_cleaning">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="rotation_cleaning" id="rotation_cleaning" value="0">
+      <label class="form-check-label" for="rotation_cleaning">No</label>
+    </div>
+  </td>
+  <td>{%if selected_rotation.rotation_cleaning %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+      </tbody>
+    </table>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="rotation_Comment" placeholder="{{selected_rotation.rotation_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+<!-- --------------------------------------------HEAD / Pneumatic parts----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A6" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A6')); layer_toggle(document.getElementById('B6')); return false;" href="#">
+   
+      Pneumatic parts  | ECT Diff : {{pneumatic_ECT_Diff}} | MRT Diff :  {{pneumatic_MRT_Diff}} | Last Check : {{selected_pneumatic.check_date|date:"Y-m-d"}},
+      ECT:{{selected_pneumatic.checked_ECT}}, MRT:{{selected_pneumatic.checked_MRT}} | Comment:{{selected_pneumatic.pneumatic_Comment|truncatechars:35}}
+   
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B6" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A6')); layer_toggle(document.getElementById('B6')); return false;" href="#"><h3 style="color:black;">Head : Pneumatic parts</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_pneumaticblock' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>Pneumatic parts</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="200" height="450" src="{% static 'image\Pneumatic.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Air Hose Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="pneumatic_hose" id="pneumatic_hose" value="1" checked>
+            <label class="form-check-label" for="pneumatic_hose">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="pneumatic_hose" id="pneumatic_hose" value="0">
+              <label class="form-check-label" for="pneumatic_hose">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_pneumatic.pneumatic_hose %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Blade Cylinder</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="pneumatic_bladeCylinder" id="pneumatic_bladeCylinder" value="1" checked>
+    <label class="form-check-label" for="pneumatic_bladeCylinder">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="pneumatic_bladeCylinder" id="pneumatic_bladeCylinder" value="0">
+      <label class="form-check-label" for="pneumatic_bladeCylinder">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_pneumatic.pneumatic_bladeCylinder %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Press Foot Cylinder</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="pneumatic_pressfootcylinder" id="pneumatic_pressfootcylinder" value="1" checked>
+    <label class="form-check-label" for="pneumatic_pressfootcylinder">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="pneumatic_pressfootcylinder" id="pneumatic_pressfootcylinder" value="0">
+      <label class="form-check-label" for="pneumatic_pressfootcylinder">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_pneumatic.pneumatic_pressfootcylinder %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">4</th>
+  <td>Drill Cylinder</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="pneumatic_Drill" id="pneumatic_Drill" value="1" checked>
+    <label class="form-check-label" for="pneumatic_Drill">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="pneumatic_Drill" id="pneumatic_Drill" value="0">
+      <label class="form-check-label" for="pneumatic_Drill">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_pneumatic.pneumatic_Drill %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">5</th>
+  <td>Sharpning Cylinder</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="pneumatic_Sharpning" id="pneumatic_Sharpning" value="1" checked>
+    <label class="form-check-label" for="pneumatic_Sharpning">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="pneumatic_Sharpning" id="pneumatic_Sharpning" value="0">
+      <label class="form-check-label" for="pneumatic_Sharpning">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_pneumatic.pneumatic_Sharpning %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="pneumatic_Comment" placeholder="{{selected_pneumatic.pneumatic_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+<!-- --------------------------------------------Air filter----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A7" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A7')); layer_toggle(document.getElementById('B7')); return false;" href="#">
+   
+      Air filter  | ECT Diff : {{airfilter_ECT_Diff}} | MRT Diff :  {{airfilter_MRT_Diff}} | Last Check : {{selected_airfilter.check_date|date:"Y-m-d"}},
+      ECT:{{selected_airfilter.checked_ECT}}, MRT:{{selected_airfilter.checked_MRT}} | Comment:{{selected_airfilter.airfilter_Comment|truncatechars:35}}
+ 
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B7" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A7')); layer_toggle(document.getElementById('B7')); return false;" href="#"><h3 style="color:black;">Air filter</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_airfilter' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>Air filter</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="300" height="340" src="{% static 'image\airfilterall.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Cooling Air Filter</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="airfilter_cool" id="airfilter_cool" value="1" checked>
+            <label class="form-check-label" for="pneumatic_hose">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="airfilter_cool" id="airfilter_cool" value="0">
+              <label class="form-check-label" for="airfilter_cool">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_airfilter.airfilter_cool %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Vaccum Filter</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="airfilter_Vaccum" id="airfilter_Vaccum" value="1" checked>
+    <label class="form-check-label" for="airfilter_Vaccum">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="airfilter_Vaccum" id="airfilter_Vaccum" value="0">
+      <label class="form-check-label" for="airfilter_Vaccum">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_airfilter.airfilter_Vaccum %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="airfilter_Comment" placeholder="{{selected_airfilter.airfilter_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+<!-- --------------------------------------------X Axis Rail----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A8" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A8')); layer_toggle(document.getElementById('B8')); return false;" href="#">
+   
+      X Axis Rail  | ECT Diff : {{xaxis_ECT_Diff}} | MRT Diff :  {{xaxis_MRT_Diff}} | Last Check : {{selected_xaxis.check_date|date:"Y-m-d"}},
+      ECT:{{selected_xaxis.checked_ECT}}, MRT:{{selected_xaxis.checked_MRT}} | Comment:{{selected_xaxis.xaxis_Comment|truncatechars:35}}
+     
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B8" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A8')); layer_toggle(document.getElementById('B8')); return false;" href="#"><h3 style="color:black;">X Axis Rail</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_xaxis' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>X Axis Rail</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="200" height="340" src="{% static 'image\Xaxisrail.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Rail condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="xaxis_rail" id="xaxis_rail" value="1" checked>
+            <label class="form-check-label" for="xaxis_rail">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="xaxis_rail" id="xaxis_rail" value="0">
+              <label class="form-check-label" for="xaxis_rail">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_xaxis.xaxis_rail %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Cleaning</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="xaxis_Cleaning" id="xaxis_Cleaning" value="1" checked>
+    <label class="form-check-label" for="xaxis_Cleaning">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="xaxis_Cleaning" id="xaxis_Cleaning" value="0">
+      <label class="form-check-label" for="xaxis_Cleaning">No</label>
+    </div>
+  </td>
+  <td>{%if selected_xaxis.xaxis_Cleaning %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Plastic Gear</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="xaxis_plasticgear" id="xaxis_plasticgear" value="1" checked>
+    <label class="form-check-label" for="xaxis_plasticgear">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="xaxis_plasticgear" id="xaxis_plasticgear" value="0">
+      <label class="form-check-label" for="xaxis_plasticgear">No</label>
+    </div>
+  </td>
+  <td>{%if selected_xaxis.xaxis_plasticgear %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="xaxis_Comment" placeholder="{{selected_xaxis.xaxis_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+<!-- --------------------------------------------Y Axis Rail----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A9" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A9')); layer_toggle(document.getElementById('B9')); return false;" href="#">
+  
+      Y Axis Rail  | ECT Diff : {{yaxis_ECT_Diff}} | MRT Diff :  {{yaxis_MRT_Diff}} | Last Check : {{selected_yaxis.check_date|date:"Y-m-d"}},
+      ECT:{{selected_yaxis.checked_ECT}}, MRT:{{selected_yaxis.checked_MRT}} | Comment:{{selected_yaxis.yaxis_Comment|truncatechars:35}}
+
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B9" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A9')); layer_toggle(document.getElementById('B9')); return false;" href="#"><h3 style="color:black;">Y Axis Rail</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_yaxis' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>Y Axis Rail</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="200" height="340" src="{% static 'image\Yaxis.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Rail condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="yaxis_rail" id="yaxis_rail" value="1" checked>
+            <label class="form-check-label" for="yaxis_rail">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="yaxis_rail" id="yaxis_rail" value="0">
+              <label class="form-check-label" for="yaxis_rail">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_yaxis.yaxis_rail %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+<tr>
+  <th scope="row">2</th>
+  <td>Cleaning</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="yaxis_Cleaning" id="yaxis_Cleaning" value="1" checked>
+    <label class="form-check-label" for="yaxis_Cleaning">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="yaxis_Cleaning" id="yaxis_Cleaning" value="0">
+      <label class="form-check-label" for="yaxis_Cleaning">No</label>
+    </div>
+  </td>
+  <td>{%if selected_yaxis.yaxis_Cleaning %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="yaxis_Comment" placeholder="{{yaxis_Cleaning.yaxis_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+<!-- --------------------------------------------CODA----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A10" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A10')); layer_toggle(document.getElementById('B10')); return false;" href="#">
+  
+      CODA  | ECT Diff : {{coda_ECT_Diff}} | MRT Diff :  {{coda_MRT_Diff}} | Last Check : {{selected_coda.check_date|date:"Y-m-d"}},
+      ECT:{{selected_coda.checked_ECT}}, MRT:{{selected_coda.checked_MRT}} | Comment:{{selected_coda.coda_Comment|truncatechars:35}}
+     
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B10" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A10')); layer_toggle(document.getElementById('B10')); return false;" href="#"><h3 style="color:black;">CODA</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_coda' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>CODA</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="320" height="380" src="{% static 'image\CODA.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Conveyor Belt condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="coda_belt" id="coda_belt" value="1" checked>
+            <label class="form-check-label" for="coda_belt">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="coda_belt" id="coda_belt" value="0">
+              <label class="form-check-label" for="coda_belt">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_coda.coda_belt %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+        <tr>
+          <th scope="row">2</th>
+          <td>Control Consol condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="coda_consol" id="coda_consol" value="1" checked>
+            <label class="form-check-label" for="coda_consol">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="coda_consol" id="coda_consol" value="0">
+              <label class="form-check-label" for="coda_consol">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_coda.coda_consol %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Moving Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="coda_moving" id="coda_moving" value="1" checked>
+    <label class="form-check-label" for="coda_moving">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="coda_moving" id="coda_moving" value="0">
+      <label class="form-check-label" for="coda_moving">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_coda.coda_moving %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="coda_Comment" placeholder="{{selected_coda.coda_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+
+<!-- --------------------------------------------Bristle----------------------------------------------------------------------------- -->
+
+<div id="A11" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A11')); layer_toggle(document.getElementById('B11')); return false;" href="#">
+ 
+      Bristle part  | ECT Diff : {{bristle_ECT_Diff}} | MRT Diff :  {{bristle_MRT_Diff}} | Last Check : {{selected_bristle.check_date|date:"Y-m-d"}},
+      ECT:{{selected_bristle.checked_ECT}}, MRT:{{selected_bristle.checked_MRT}} | Comment:{{selected_bristle.bristle_Comment|truncatechars:35}}
+ 
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B11" style="display: none; margin-left:100px;"> 
+   <a onclick="layer_toggle(document.getElementById('A11')); layer_toggle(document.getElementById('B11')); return false;" href="#"><h3 style="color:black;">Bristle BLOCK</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_bristle' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>Bristle BLOCK</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="320" height="380" src="{% static 'image\Bristle.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Bristle condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="bristle_block" id="bristle_block" value="1" checked>
+            <label class="form-check-label" for="bristle_block">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="bristle_block" id="bristle_block" value="0">
+              <label class="form-check-label" for="bristle_block">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_bristle.bristle_block %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+        <tr>
+          <th scope="row">2</th>
+          <td>Comb condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="bristle_comb" id="bristle_comb" value="1" checked>
+            <label class="form-check-label" for="bristle_comb">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="bristle_comb" id="bristle_comb" value="0">
+              <label class="form-check-label" for="bristle_comb">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_bristle.bristle_comb %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Moving Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="bristle_moving" id="bristle_moving" value="1" checked>
+    <label class="form-check-label" for="bristle_moving">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="bristle_moving" id="bristle_moving" value="0">
+      <label class="form-check-label" for="bristle_moving">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_bristle.bristle_moving %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="bristle_Comment" placeholder="{{selected_bristle.bristle_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+<!-- --------------------------------------------Control Air Inlet----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A12" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A12')); layer_toggle(document.getElementById('B12')); return false;" href="#">
+
+      Control Air Inlet  | ECT Diff : {{airinlet_ECT_Diff}} | MRT Diff :  {{airinlet_MRT_Diff}} | Last Check : {{selected_airinlet.check_date|date:"Y-m-d"}},
+      ECT:{{selected_airinlet.checked_ECT}}, MRT:{{selected_airinlet.checked_MRT}} | Comment:{{selected_airinlet.airinlet_Comment|truncatechars:35}}
+
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B12" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A12')); layer_toggle(document.getElementById('B12')); return false;" href="#"><h3 style="color:black;">Control Air Inlet</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_airinlet' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>Control Air Inlet</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="320" height="380" src="{% static 'image\Air_regulator.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Regulator Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="airinlet_Regulator" id="airinlet_Regulator" value="1" checked>
+            <label class="form-check-label" for="airinlet_Regulator">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="airinlet_Regulator" id="airinlet_Regulator" value="0">
+              <label class="form-check-label" for="airinlet_Regulator">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_airinlet.airinlet_Regulator %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+        <tr>
+          <th scope="row">2</th>
+          <td>Separator Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="airinlet_Separator" id="airinlet_Separator" value="1" checked>
+            <label class="form-check-label" for="airinlet_Separator">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="airinlet_Separator" id="airinlet_Separator" value="0">
+              <label class="form-check-label" for="airinlet_Separator">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_airinlet.airinlet_Separator %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Low Limit Setting (4.5 Bar )</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="airinlet_setting" id="airinlet_setting" value="1" checked>
+    <label class="form-check-label" for="airinlet_setting">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="airinlet_setting" id="airinlet_setting" value="0">
+      <label class="form-check-label" for="airinlet_setting">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_airinlet.airinlet_setting %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+
+<tr>
+  <th scope="row">4</th>
+  <td>Air pressure (6.5 ~ 7.5 bar)</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="airinlet_pressure" id="airinlet_pressure" value="1" checked>
+    <label class="form-check-label" for="airinlet_pressure">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="airinlet_pressure" id="airinlet_pressure" value="0">
+      <label class="form-check-label" for="airinlet_pressure">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_airinlet.airinlet_pressure %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="airinlet_Comment" placeholder="{{selected_airinlet.airinlet_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+<!-- --------------------------------------------Result fabric condition----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A13" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A13')); layer_toggle(document.getElementById('B13')); return false;" href="#">
+ 
+      Result fabric condition  | ECT Diff : {{resultfabric_ECT_Diff}} | MRT Diff :  {{resultfabric_MRT_Diff}} | Last Check : {{selected_resultfabric.check_date|date:"Y-m-d"}},
+      ECT:{{selected_resultfabric.checked_ECT}}, MRT:{{selected_resultfabric.checked_MRT}} | Comment:{{selected_resultfabric.result_Comment|truncatechars:35}}
+
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B13" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A13')); layer_toggle(document.getElementById('B13')); return false;" href="#"><h3 style="color:black;">Result fabric condition</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_resultfabric' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>Result fabric condition</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="320" height="450" src="{% static 'image\Resultfabric.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Cutted Surface Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="result_surface" id="result_surface" value="1" checked>
+            <label class="form-check-label" for="result_surface">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="result_surface" id="result_surface" value="0">
+              <label class="form-check-label" for="result_surface">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_resultfabric.result_surface %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+        <tr>
+          <th scope="row">2</th>
+          <td>Notch Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="result_notch" id="result_notch" value="1" checked>
+            <label class="form-check-label" for="result_notch">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="result_notch" id="result_notch" value="0">
+              <label class="form-check-label" for="result_notch">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_resultfabric.result_notch %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>Internal Angle Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="result_inangle" id="result_inangle" value="1" checked>
+    <label class="form-check-label" for="result_inangle">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="result_inangle" id="result_inangle" value="0">
+      <label class="form-check-label" for="result_inangle">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_resultfabric.result_inangle %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+
+<tr>
+  <th scope="row">5</th>
+  <td>Outline Angle Condition</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="result_outangle" id="result_outangle" value="1" checked>
+    <label class="form-check-label" for="result_outangle">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="result_outangle" id="result_outangle" value="0">
+      <label class="form-check-label" for="result_outangle">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_resultfabric.result_outangle %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="result_Comment" placeholder="{{selected_resultfabric.result_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+<!-- --------------------------------------------Electic Cabinet----------------------------------------------------------------------------- -->
+
+
+
+
+<div id="A14" style="display: block; "> 
+  <a class="routine_flop" onclick="layer_toggle(document.getElementById('A14')); layer_toggle(document.getElementById('B14')); return false;" href="#">
+ 
+      Electic Cabinet  | ECT Diff : {{elcabnet_ECT_Diff}} | MRT Diff :  {{elcabnet_MRT_Diff}} | Last Check : {{selected_elcabnet.check_date|date:"Y-m-d"}},
+      ECT:{{selected_elcabnet.checked_ECT}}, MRT:{{selected_elcabnet.checked_MRT}} | Comment:{{selected_elcabnet.elec_Comment|truncatechars:35}}
+   
+  </a> 
+  </div> 
+  <hr>
+
+   <div id="B14" style="display: none; margin-left:100px; "> 
+   <a onclick="layer_toggle(document.getElementById('A14')); layer_toggle(document.getElementById('B14')); return false;" href="#"><h3 style="color:black;">Electic Cabinet</h3></a>  
+<hr>
+<form action="{% url 'maintenance:routine_elecabinet' selected_index.id %}" method="POST">
+  {% csrf_token %}
+  <div class="col-md-12" style="text-align: left;">
+<h5>Electic Cabinet</h5>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+ {% load static %}
+  <div class="col-auto d-none d-lg-block" style="border: 1px solid black;">
+    <img class="bd-placeholder-img" width="320" height="380" src="{% static 'image\eElec_cabinet.PNG'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><rect width="100%" height="100%" fill=""/></img>
+  </div>
+
+  <div class="col p-4 d-flex flex-column position-static">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col" colspan="2" style="text-align: center;">Condition</th>
+          <th scope="col">Last Record</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <th scope="row">1</th>
+          <td>Board Visual Check </td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="elec_board" id="elec_board" value="1" checked>
+            <label class="form-check-label" for="elec_board">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="elec_board" id="elec_board" value="0">
+              <label class="form-check-label" for="elec_board">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_elcabnet.elec_board %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+        <tr>
+          <th scope="row">2</th>
+          <td>Cable connection  Condition</td>
+          <td>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="elec_Cable" id="elec_Cable" value="1" checked>
+            <label class="form-check-label" for="elec_Cable">Normal</label>
+          </div>
+        </td>
+          <td>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="elec_Cable" id="elec_Cable" value="0">
+              <label class="form-check-label" for="elec_Cable">Abnormal</label>
+            </div>
+          </td>
+          <td>{%if selected_elcabnet.elec_Cable %}Normal{% else %}Abnormal{% endif %}</td>
+        </tr>
+
+
+<tr>
+  <th scope="row">3</th>
+  <td>4 axis Fan Running</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="elec_4axis" id="elec_4axis" value="1" checked>
+    <label class="form-check-label" for="elec_4axis">Normal</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="elec_4axis" id="elec_4axis" value="0">
+      <label class="form-check-label" for="elec_4axis">Abnormal</label>
+    </div>
+  </td>
+  <td>{%if selected_elcabnet.elec_4axis %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+
+<tr>
+  <th scope="row">4</th>
+  <td>Cleaning</td>
+  <td>
+    <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="elec_cleaning" id="elec_cleaning" value="1" checked>
+    <label class="form-check-label" for="elec_cleaning">Yes</label>
+  </div>
+</td>
+  <td>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="elec_cleaning" id="elec_cleaning" value="0">
+      <label class="form-check-label" for="elec_cleaning">No</label>
+    </div>
+  </td>
+  <td>{%if selected_elcabnet.elec_cleaning %}Normal{% else %}Abnormal{% endif %}</td>
+</tr>
+
+
+
+      </tbody>
+    </table>
+
+
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea" name="elec_Comment" placeholder="{{selected_elcabnet.elec_Comment}}"></textarea>
+     
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary" style="width:200px; margin-left: 420px;">SAVE</button>
+  </div>
+  
+</div>
+</div>
+</div>
+</form>
+
+<!-- ------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block script %}
+
+<script language='JavaScript' type='text/javascript'> 
+function layer_toggle(obj) { 
+    if (obj.style.display=='none') obj.style.display = 'block'; 
+    else if (obj.style.display=='block') obj.style.display = 'none'; } 
+</script>
+
+
+{% endblock %}

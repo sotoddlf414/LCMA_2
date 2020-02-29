@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+
+{% block css%}
+<style>
+ .hour_form{
+   width:350px;
+   margin-top: 30px;
+   margin-left: 50px;
+ }
+</style>
+{% endblock %}
+
+{%block head%}<title>Hour Input page</title>{% endblock %}
+
+{%block content%}
+<!-- DATE / ECT / MRT Input -->
+<div class="hour_form">
+<form action="{% url 'maintenance:hour' pk %}" method="POST">
+  {%csrf_token%}
+    <div class="form-group">
+      <label for="Today_Date">Today_Date</label>
+      <input type="text" class="form-control" id="Today_Date" name="Today_Date" placeholder="YYYY-MM-DD" autocomplete="off" required 
+      pattern="\d{4}-\d{1,2}-\d{1,2}">     
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">ECT</label>
+      <input type="text" class="form-control" id="ECT" name="ECT" required autocomplete="off">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">MRT</label>
+        <input type="text" class="form-control" id="MRT" name="MRT" required autocomplete="off">
+      </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

@@ -1,0 +1,20 @@
+
+
+{% extends "base.html" %}
+
+{% block head %}<title>Delete Page</title>{% endblock %}
+
+{%block content %}
+
+<form action="{% url 'index:delete_site' selected_site.id %}" method="POST">
+    {% csrf_token %}
+<div class="jumbotron">
+    <h1 class="display-4" style="color:red; font-weight: bold; font-size: 60px;">Warning</h1>
+    <p class="lead" style="font-weight: bold; font-size: 22px;">Do you really want to delete information of "{{selected_site.site_name}}, {{selected_site.machine_model}}" ? </p>
+    <hr class="my-4">
+    <p>If you don't want to delete it, click the "Return" button which under this page.</p>
+    <input type="submit" class="btn btn-danger btn-lg" role="button" value="Delete">
+    <a href="/index/"><button type="button"  class="btn btn-success btn-lg">Return</button></a>
+  </div>
+</form>
+{% endblock%}

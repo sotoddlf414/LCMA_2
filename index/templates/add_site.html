@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{%block head %}<title>Add Site Page</title>{% endblock %}
+
+{%block content%}
+<!-- site_name = models.CharField(max_length=100)
+site_address = models.CharField(max_length=200)
+machine_type = models.CharField(max_length=100)
+machine_model = models.CharField(max_length=100)
+last_service = models.DateField(null=True, blank=True)
+running_ECT = models.IntegerField(default=0000, blank=True, null=True)
+running_VMT = models.IntegerField(default=0000, blank=True, null=True) -->
+<div class="formwidth" style="width:500px; margin-left: 30px;">
+<form action="{% url 'index:add_site'%}" method="POST">
+    {% csrf_token%}
+    <div class="form-group">
+      <label for="site_name">site_name</label>
+      <input type="text" class="form-control" id="site_name" placeholder="site_name" name="site_name">
+    </div>
+    <div class="form-group">
+        <label for="site_address">site_address</label>
+        <input type="text" class="form-control" id="site_address" placeholder="site_address" name="site_address">
+      </div>
+    <div class="form-group">
+        <label for="machine_model">machine_model</label>
+        <input type="machine_model" class="form-control" id="machine_model" placeholder="machine_model" name="machine_model">
+      </div>
+      <div class="form-group">
+        <label for="machine_number">Serial Number</label>
+        <input type="machine_model" class="form-control" id="machine_number" placeholder="machine_number" name="machine_number">
+      </div>
+
+      <div class="form-group">
+        <label for="machine_type">machine_type</label>
+        <select class="form-control" id="machine_type" name="machine_type">
+          <option value="Fashion">Fashion</option>
+          <option value="Automobile">Automobile</option>
+          <option value="" selected disabled hidden>Seletet</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add Now</button>
+
+  </form>
+</div>
+{%endblock%}

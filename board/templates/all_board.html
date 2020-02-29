@@ -1,0 +1,72 @@
+
+{% extends "base.html" %}
+
+{%block css%}
+<style>
+    .board_search_header{ margin:0; padding:0; width:100%; height:95px;
+    position: relative;}
+
+    .board_search_header label{position:absolute; top:0; left:620px; font-size: 25px;}
+
+    .board_search_header .form-group{position: relative; top:40px; width:50%; left:370px;}
+
+    .board_search_header option{font-style: bold;}
+
+    #container{width:100%; min-height: calc(100vh - 300px);  position: relative;}
+
+    .board_list{width:650px; height:400px;  position: relative; top:30px; left:420px;}
+    small{position: relative; left:570px;}
+</style>
+{%endblock%}
+
+{% block head %}<title>Board</title>{%endblock%}
+
+
+{% block content %}
+<header class="board_search_header">
+    <label for="exampleFormControlSelect1">Select site & Machine</label>
+        <div class="form-group">
+            <select class="form-control" name="search" id="exampleFormControlSelect1"
+            onchange="location.href=this.value">
+            <option selected disabled hidden>Select Site</option>
+                {% for selected in select_site %}
+            <option value="{% url 'board:board_list_enterance' selected.id %}">
+                {{selected.site_name}} | {{selected.machine_model}} | {{selected.machine_number}} | {{selected.machine_type}}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+</header>
+<!-- 
+<div id="container">
+    <small id="emailHelp" class="form-text text-muted">Select one of title list, and you can access, see the detail of the contents</small>
+    <div class="board_list">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Break Fix
+              <span class="badge badge-primary badge-pill"></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              ETC
+              <span class="badge badge-primary badge-pill"></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              PmAudit
+              <span class="badge badge-primary badge-pill"></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Routine Check
+                <span class="badge badge-primary badge-pill"></span>
+            </li>
+          </ul>
+    </div>
+</div> -->
+
+
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}

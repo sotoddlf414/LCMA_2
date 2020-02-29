@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+
+{%block head %}<title>Modify Site Page</title>{% endblock %}
+
+{%block content%}
+
+
+<div class="formwidth" style="width:500px; margin-left: 30px;">
+<form action="{% url 'index:modify_site' site.id %}" method="POST">
+    {% csrf_token%}
+    <div class="form-group">
+      <label for="site_name">site_name</label>
+      <input type="text" class="form-control" id="site_name" placeholder="site_name" name="site_name" value="{{site.site_name}}" required>
+    </div>
+    <div class="form-group">
+        <label for="site_name">site_address</label>
+        <input type="text" class="form-control" id="site_address" placeholder="site_address" name="site_address" value="{{site.site_address}}" required>
+      </div>
+    <div class="form-group">
+        <label for="site_name">machine_model</label>
+        <input type="machine_model" class="form-control" id="machine_model" placeholder="machine_model" name="machine_model" value="{{site.machine_model}}" required>
+      </div>
+      <div class="form-group">
+        <label for="machine_number">Serial Number</label>
+        <input type="machine_model" class="form-control" id="machine_number" placeholder="machine_number" name="machine_number" value="{{site.machine_number}}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="machine_type">machine_type</label>
+        <select class="form-control" id="machine_type" name="machine_type">
+          <option value="Fashion">Fashion</option>
+          <option value="Automobile">Automobile</option>
+          <option value="{{site.machine_type}}" selected  hidden>{{site.machine_type}}</option> <!--multikey error 발생했음 , 초기값 정해줘야함-->
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Modify Now</button>
+
+  </form>
+</div>
+
+{%endblock%}

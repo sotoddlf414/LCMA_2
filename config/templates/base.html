@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   
+      {%block css%}
+      {%endblock%}
+ 
+
+    {% block head %}<title>Base</title>{% endblock %}
+</head>
+<body>
+  <div class="wrapper" style="margin-bottom: 100px;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light"  style="position:relative;">
+        <a class="navbar-brand" href="{% url 'index:index'%}" 
+        style="font-weight: bold; font-size: 28px; text-decoration: none;">LCMA</a>
+<!-- -------------------------------------------------------------------------------------------------- -->
+         &nbsp;
+         <div style="position: absolute; left:120px; font-size: 19px;">
+         {% if user.is_authenticated %}
+         <a href="{% url 'account:Logout'%}">Logout</a>
+         <span>/ {{user.username}} is now Login</span>
+         {% else %}
+         <a href="{% url 'account:Login' %}">Login</a>
+         &nbsp;&nbsp;
+         <a href="{% url 'account:Signup' %}">SignUp</a>
+         {% endif%}
+        </div>
+<!-- -------------------------------------------------------------------------------------------------- -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="margin-left:1000px;">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/admin/">Admin <span class="sr-only"></span></a>
+            <a class="nav-item nav-link active" href="/index/">Maintenance <span class="sr-only"></span></a>
+            <a class="nav-item nav-link active" href="/board/">Board</a>
+            <!-- <a class="nav-item nav-link" href="#">Condition</a>
+            <a class="nav-item nav-link" href="#">History</a> -->
+          </div>
+        </div>
+      </nav>
+    {%block content %}
+
+    {% endblock %}
+</div>
+
+
+    <footer id="sticky-footer" class="py-4 bg-dark text-white-50" 
+     style="position: fixed; bottom: 0;width: 100%;height: 2.5rem; ">
+      <div class="container text-center">
+        <small>Copyright &copy; Automation Engineer : Kim Jun Sang , sotoddlf414@naver.com </small>
+      </div>
+    </footer>
+    {%block script%}
+    {%endblock%}
+
+</body>
+</html>

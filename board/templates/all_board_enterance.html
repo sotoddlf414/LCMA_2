@@ -1,0 +1,122 @@
+
+{% extends "base.html" %}
+
+{%block css%}
+<style>
+    .board_search_header{ margin:0; padding:0; width:100%; height:95px;
+    position: relative;}
+
+    .board_search_header label{position:absolute; top:0; left:620px; font-size: 25px;}
+
+    .board_search_header .form-group{position: relative; top:40px; width:50%; left:370px;}
+
+    .board_search_header option{font-style: bold;}
+
+    #container{width:100%; min-height: calc(100vh - 300px);  position: relative;}
+
+    .board_list{width:650px; height:400px;  position: relative; top:30px; left:420px;}
+    small{position: relative; left:570px;}
+</style>
+{%endblock%}
+
+{% block head %}<title>Board</title>{%endblock%}
+
+
+{% block content %}
+<header class="board_search_header">
+    <label for="exampleFormControlSelect1">Select site & Machine</label>
+        <div class="form-group">
+            <select class="form-control" name="search" id="exampleFormControlSelect1"
+            onchange="location.href=this.value">
+            <option selected disabled hidden>{{selected_site.site_name}} | {{selected_site.machine_model}} | {{selected_site.machine_number}} | {{selected_site.machine_type}}</option>
+                {% for selected in select_site %}
+            <option value="{% url 'board:board_list_enterance' selected.id %}">
+                {{selected.site_name}} | {{selected.machine_model}} | {{selected.machine_number}} | {{selected.machine_type}}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+</header>
+
+<div id="container">
+    <small id="emailHelp" class="form-text text-muted">Select one of title list, and you can access, see the detail of the contents</small>
+    <div class="board_list">
+        <ul class="list-group">
+
+            {%if count_Breakfix >= 1 %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{% url 'board:breakfix_board' selected_site.id %}">Break Fix</a>
+              <span class="badge badge-primary badge-pill">{{count_Breakfix}}</span>
+            </li>
+            {% else %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                No Article
+               
+            </li>
+            {%endif%}
+
+
+            {%if count_Pmaudit >= 1 %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{% url 'board:PMAUDIT_board' selected_site.id %}">Pmaudit</a>
+              <span class="badge badge-primary badge-pill">{{count_Pmaudit}}</span>
+            </li>
+            {% else %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                No Article
+               
+            </li>
+            {%endif%}
+
+
+            {%if count_ETC >= 1 %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{% url 'board:ETC_board' selected_site.id %}">ETC</a>
+              <span class="badge badge-primary badge-pill">{{count_ETC}}</span>
+            </li>
+            {% else %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                No Article
+               
+            </li>
+            {%endif%}
+
+
+            {%if count_overhaul >= 1 %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="{% url 'board:overhaul_board' selected_site.id %}">Overhaul work</a>
+              <span class="badge badge-primary badge-pill">{{count_overhaul}}</span>
+            </li>
+            {% else %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                No Article
+               
+            </li>
+            {%endif%}
+
+
+            {%if count_routine >= 1 %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a href="">Routine Check</a>
+              <span class="badge badge-primary badge-pill">{{count_routine}}</span>
+            </li>
+            {% else %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                No Article
+               
+            </li>
+            {%endif%}
+
+
+          </ul>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}

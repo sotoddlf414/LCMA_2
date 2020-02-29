@@ -1,0 +1,145 @@
+
+{% extends "base.html" %}
+
+{%block css%}
+<style>
+    .btn btn-primary btn-lg{
+        width : 55px;
+    }
+</style>
+{%endblock%}
+
+{% block head %}<title>Time & Form selection</title>{%endblock%}
+
+{% block content %}
+
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="">{{selected_index}}</a>
+</nav>
+  <hr>
+  
+<!-- ----------Time Record------------------------------------------------------------------------------------ -->
+  
+  <div class="container">
+    <h4>Time Record</h4>
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-sm">
+
+            <div class="form-group">
+                <label for="Now_Date">Now Date</label>
+                <input type="text" class="form-control" id="Now_Date" value="{{date_today}}" readonly>
+                <small id="emailHelp" class="form-text text-muted">Display today work Date just input before it.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="Term">Term</label>
+                <input type="text" class="form-control" id="Term" value="{{date_today}} ~ {{date_last}}" readonly>
+                <small id="emailHelp" class="form-text text-muted">Display Term from last to now date.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="Days">Days</label>
+                <input type="text" class="form-control" id="Days" value="{{date_diff}} Day passed" readonly>
+                <small id="emailHelp" class="form-text text-muted">Display the days passed since last job.</small>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="ECT">ECT</label>
+                <input type="text" class="form-control" id="ECT" value="{{ect_today}}" readonly>
+                <small id="emailHelp" class="form-text text-muted">Display Effective cutting hour of now.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="ECT_Diff">ECT Diff</label>
+                <input type="text" class="form-control" id="ECT" value="{{ect_diff}} hour passed" readonly>
+                <small id="emailHelp" class="form-text text-muted">Display ECT from last issue .</small>
+            </div>
+
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <label for="MRT">MRT</label>
+                <input type="text" class="form-control" id="MRT" value="{{mrt_today}}" readonly>
+                <small id="emailHelp" class="form-text text-muted">Display Vaccum motor hour of now.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="MRT_Diff">MRT Diff</label>
+                <input type="text" class="form-control" id="MRT" value="{{mrt_diff}} hour passed" readonly>
+                <small id="emailHelp" class="form-text text-muted">Display MRT from last issue .</small>
+            </div>
+        </div>
+    </div>
+  <!-- </div> -->
+
+<!-- ----------Jobstyle------------------------------------------------------------------------------------ -->
+<hr>
+<h4>Job Style</h4>
+<ul class="nav">
+ 
+    
+    
+    <li class="nav-item" style="margin:15px; ">
+        <button type="button" style="width:180px;" class="btn btn-primary btn-lg" onclick="routine(); return false;">Routine Check</button>
+    </li>
+
+    <li class="nav-item" style="margin:15px;">
+        <button type="button" class="btn btn-primary btn-lg" style="width:180px;" onclick="break_fix(); return false;">Break fix</button>
+    </li>
+
+    <li class="nav-item" style="margin:15px;">
+        <button type="button" class="btn btn-primary btn-lg"  style="width:180px;" onclick="pmaudit(); return false;">Pm Audit</button>
+    </li>
+
+    <li class="nav-item" style="margin:15px;">
+        <button type="button" class="btn btn-primary btn-lg"  style="width:180px;" onclick="greasing(); return false;">Greasing work</button>
+    </li>
+
+    <li class="nav-item" style="margin:15px;">
+        <button type="button" class="btn btn-primary btn-lg" style="width:180px;" onclick="overhaul(); return false;">Overhaul</button>
+    </li>
+
+    <li class="nav-item" style="margin:15px;">
+        <button type="button" style="width:180px;" class="btn btn-primary btn-lg" onclick="etc(); return false;">ETC</button>
+    </li>
+
+
+  </ul>
+
+
+  </div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    //  url 주소 입력
+    function break_fix(){ 
+        location.href = "{% url 'maintenance:break_fix' index_pk %}";   
+    }
+    
+    function pmaudit(){ 
+        location.href = "{% url 'maintenance:pm_audit' index_pk %}";   
+    }
+
+    function greasing(){ 
+        location.href = "{% url 'maintenance:greasing' index_pk %}";   
+    }
+
+    function overhaul(){ 
+        location.href = "{% url 'maintenance:overhaul' index_pk %}";   
+    }
+
+    function etc(){ 
+        location.href = "{% url 'maintenance:etc' index_pk %}";   
+    }
+
+    function routine(){ 
+        location.href = "{% url 'maintenance:routine_check_1' index_pk %}";   
+    }
+    
+
+</script>
+{% endblock %}
