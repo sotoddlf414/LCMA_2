@@ -12,10 +12,10 @@
 
     .board_search_header option{font-style: bold;}
 
-    #container{width:100%; min-height: calc(100vh - 300px);  position: relative;}
+    #container{width:50%;   position: relative;}
 
-    .board_list{width:650px; height:400px;  position: relative; top:30px; left:420px;}
-    small{position: relative; left:570px;}
+    .board_list{width:650px; height:400px;  position: relative; top:70px; left:150px;}
+    small{position: relative; left:245px; top:60px;}
 </style>
 {%endblock%}
 
@@ -23,6 +23,7 @@
 
 
 {% block content %}
+
 <header class="board_search_header">
     <label for="exampleFormControlSelect1">Select site & Machine</label>
         <div class="form-group">
@@ -38,6 +39,9 @@
         </div>
 </header>
 
+
+
+
 <div id="container">
     <small id="emailHelp" class="form-text text-muted">Select one of title list, and you can access, see the detail of the contents</small>
     <div class="board_list">
@@ -46,7 +50,9 @@
             {%if count_Breakfix >= 1 %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="{% url 'board:breakfix_board' selected_site.id %}">Break Fix</a>
-              <span class="badge badge-primary badge-pill">{{count_Breakfix}}</span>
+              <span class="badge badge-primary badge-pill">
+                  <span id="count_Breakfix">{{count_Breakfix}}</span>
+                </span>
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -59,7 +65,10 @@
             {%if count_Pmaudit >= 1 %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="{% url 'board:PMAUDIT_board' selected_site.id %}">Pmaudit</a>
-              <span class="badge badge-primary badge-pill">{{count_Pmaudit}}</span>
+              <span class="badge badge-primary badge-pill">
+             
+                  <span id="count_Pmaudit">{{count_Pmaudit}}</span>
+                </span>
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -72,7 +81,10 @@
             {%if count_ETC >= 1 %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="{% url 'board:ETC_board' selected_site.id %}">ETC</a>
-              <span class="badge badge-primary badge-pill">{{count_ETC}}</span>
+              <span class="badge badge-primary badge-pill">
+             
+                  <span id="count_ETC">{{count_ETC}}</span>
+                </span>
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -85,7 +97,11 @@
             {%if count_overhaul >= 1 %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="{% url 'board:overhaul_board' selected_site.id %}">Overhaul work</a>
-              <span class="badge badge-primary badge-pill">{{count_overhaul}}</span>
+              <span class="badge badge-primary badge-pill">
+               
+                  <span id="count_overhaul">{{count_overhaul}}</span>
+
+                </span>
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -98,7 +114,11 @@
             {%if count_routine >= 1 %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="">Routine Check</a>
-              <span class="badge badge-primary badge-pill">{{count_routine}}</span>
+              <span class="badge badge-primary badge-pill">
+              
+
+                  <span id="count_routine">{{count_routine}}</span>
+                </span>
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -106,11 +126,32 @@
                
             </li>
             {%endif%}
-
-
           </ul>
     </div>
+
+
+    <div id="mychart" style="width:340px; height:340px; position: absolute; left:1000px; top:25px;">
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    
+
+
 </div>
+
+
+
+<div id="count_Breakfix" style="display: none;">{{count_Breakfix}}</div>
+<div id="count_Pmaudit" style="display: none;">{{count_Pmaudit}}</div>
+<div id="count_ETC" style="display: none;">{{count_ETC}}</div>
+<div id="count_overhaul" style="display: none;">{{count_overhaul}}</div>
+<div id="count_routine" style="display: none;">{{count_routine}}</div>
+
+
+<!-- <span id="count_Breakfix">{{count_Breakfix}}</span>
+<span id="count_Pmaudit">{{count_Pmaudit}}</span>
+<span id="count_ETC">{{count_ETC}}</span>
+<span id="count_overhaul">{{count_overhaul}}</span>
+<span id="count_routine">{{count_routine}}</span> -->
 
 
 
@@ -118,5 +159,44 @@
 
 
 {% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
 
+
+
+var count_Breakfix = document.getElementById('count_Breakfix').innerText;
+var count_Pmaudit = document.getElementById('count_Pmaudit').innerText;
+var count_ETC = document.getElementById('count_ETC').innerText;
+var count_overhaul = document.getElementById('count_overhaul').innerText;
+var count_routine = document.getElementById('count_routine').innerText;
+
+
+
+var ctx = document.getElementById('myChart');
+
+
+
+
+var data = {
+    "labels": ["BreakFix", "Pmaudit", "ETC",  "overhaul",  "count_routine" ],
+    "datasets": [{
+        "label": "My First Dataset",
+        "data": [count_Breakfix, count_Pmaudit, count_ETC, count_overhaul, count_routine],
+        "backgroundColor": [
+            "rgb(247, 51, 7)", 
+            "rgb(151, 232, 12)", 
+            "rgb(255, 205, 86)",
+            "rgb(12, 232, 217)",
+            "rgb(243, 131, 247)",
+            ]
+    }]
+};
+var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    // options: options
+});
+
+
+</script>
 {% endblock %}

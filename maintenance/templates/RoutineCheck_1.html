@@ -1646,7 +1646,7 @@ Rotation BLock</h5>
 <div id="A13" style="display: block; "> 
   <a class="routine_flop" onclick="layer_toggle(document.getElementById('A13')); layer_toggle(document.getElementById('B13')); return false;" href="#">
  
-      Result fabric condition  | ECT Diff : {{resultfabric_ECT_Diff}} | MRT Diff :  {{resultfabric_MRT_Diff}} | Last Check : {{selected_resultfabric.check_date|date:"Y-m-d"}},
+      Result fabric condition  | ECT Diff : {{resultfabric_ECT_Diff}} | MRT Diff :  {{resultfabric_MRT_Diff}} | Last Check : <span class="last_check_date">{{selected_resultfabric.check_date|date:"Y-m-d"}}</span>,
       ECT:{{selected_resultfabric.checked_ECT}}, MRT:{{selected_resultfabric.checked_MRT}} | Comment:{{selected_resultfabric.result_Comment|truncatechars:35}}
 
   </a> 
@@ -1943,7 +1943,28 @@ Rotation BLock</h5>
 function layer_toggle(obj) { 
     if (obj.style.display=='none') obj.style.display = 'block'; 
     else if (obj.style.display=='block') obj.style.display = 'none'; } 
+
+// $(document).ready(function () {
+
+//   console.log('로드됨');
+
+//   $('.last_check_date').each(function () {
+//     const checkDate = new luxon.DateTime($(this).text());
+
+//     // checkDate가 오늘 - 7일보다 값이 작을 때
+//     if (checkDate < luxon.DateTime.local().minus(1, 'days')) {
+//       // 빨간색으로 변경
+//       $(this).css('color', 'red');
+//     }
+
+//   });
+
+// });
+
 </script>
+
+
+
 
 
 {% endblock %}
