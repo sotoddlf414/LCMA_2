@@ -33,7 +33,9 @@
   <a class="navbar-brand" href=""><h4 style="margin-left: 35px;">Routine Check</h4>{{selected_index}} & {{selected_hour.pub_date}} & ECT : {{selected_hour.ECT}}h & MRT : {{selected_hour.MRT}}h</a>
 </nav>
 <hr>
-
+<div class="return" style="margin:20px;" >
+  <a href="{% url 'maintenance:timeform' selected_index.id %}"><button style=" width:75px;" type="button" class="btn btn-success">Return</button></a>
+</div>
 
 
 

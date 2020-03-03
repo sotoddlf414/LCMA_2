@@ -15,20 +15,25 @@
 
 {% block content %}
 
+<div class="return" style="margin:20px;" >
+  <a href="{% url 'maintenance:timeform' selected_index.id %}"><button style=" width:75px;" type="button" class="btn btn-success">Return</button></a>
+</div>
 
 <div class="breakfix_form">
-<span style="font-size: 25px; font-weight: bold; margin:10px;" >Overhaul</span>  <a href=""><button class="btn btn-warning">Return</button></a>
+<span style="font-size: 25px; font-weight: bold; margin:10px;" >Overhaul</span> 
+
 
 <form action="" method="POST">
     {% csrf_token %}
     <div class="form-group">
       <label for="exampleFormControlSelect1">Select related subject</label>
       <select class="form-control" id="exampleFormControlSelect1" name="subject" required>
+        <option hidden disabled selected value="">Selection</option>
         <option value="MTK500H" >MTK500H</option>
         <option value="MTK1000H">MTK1000H</option>
         <option value="MTK2000H">MTK2000H</option>
         <option value="MTK4000H">MTK4000H</option>
-        <option selected disabled hidden >Selection</option>
+        
       </select>
     </div>
 
@@ -47,21 +52,21 @@
 
       <div class="form-group">
         <label for="Today_Date">Work_Date</label>
-        <input type="text" class="form-control" id="Today_Date" name="Today_Date" placeholder="YYYY-MM-DD"  pattern="\d{4}-\d{1,2}-\d{1,2}" required>     
+        <input type="text" class="form-control" id="Today_Date"  value="{{selected_hour.pub_date|date:'Y-m-d'}}" name="Today_Date" placeholder="YYYY-MM-DD"  pattern="\d{4}-\d{1,2}-\d{1,2}" required autocomplete="off">     
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">ECT</label>
-        <input type="text" class="form-control" id="ECT" name="ECT"  required>
+        <input type="text" class="form-control" id="ECT" value="{{selected_hour.ECT}}" name="ECT"  required autocomplete="off">
       </div>
       <div class="form-group">
           <label for="exampleInputPassword1">MRT</label>
-          <input type="text" class="form-control" id="MRT" name="MRT"  required>
+          <input type="text" class="form-control" id="MRT" value="{{selected_hour.MRT}}" name="MRT"  required autocomplete="off">
         </div>
     
 
     <div class="form-group">
       <label for="break_title" style="">Title</label>
-      <input type="text" class="form-control" id="break_title" name="title" placeholder="write title of this work" required>
+      <input type="text" class="form-control" id="break_title" name="title" placeholder="write title of this work" required autocomplete="off">
     </div>
     
     <div class="form-group">

@@ -56,7 +56,7 @@
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                No Article
+                <a href="{% url 'board:breakfix_board_add' selected_site.id %}" style="text-decoration: none;">Add Break Fix Article Data</a>
                
             </li>
             {%endif%}
@@ -72,7 +72,7 @@
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                No Article
+            <a href="" style="text-decoration: none;">Add Pmaudit Article Data</a>
                
             </li>
             {%endif%}
@@ -88,7 +88,7 @@
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                No Article
+                <a href="" style="text-decoration: none;">Add ETC Article Data</a>
                
             </li>
             {%endif%}
@@ -105,12 +105,12 @@
             </li>
             {% else %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                No Article
+                <a href="" style="text-decoration: none;">Add Overhaul Article Data</a>
                
             </li>
             {%endif%}
 
-
+<!-- 
             {%if count_routine >= 1 %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a href="">Routine Check</a>
@@ -127,7 +127,7 @@
             </li>
             {%endif%}
           </ul>
-    </div>
+    </div> -->
 
 
     <div id="mychart" style="width:340px; height:340px; position: absolute; left:1000px; top:25px;">

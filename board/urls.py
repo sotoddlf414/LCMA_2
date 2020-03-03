@@ -7,7 +7,7 @@ app_name = 'board'
 
 urlpatterns = [
     path('', board, name='board'), 
-    path('board_search/<int:index_pk>', board_search, name='board_search'), 
+    # path('board_search/<int:index_pk>', board_search, name='board_search'), 
     path('board_list_enterance/<int:index_pk>', board_list_enterance, name='board_list_enterance'),
 
     path('breakfix_board/<int:index_pk>', breakfix_board, name='breakfix_board'),

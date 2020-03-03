@@ -451,7 +451,7 @@ def overhaul_board_add(request, index_pk):
 def overhaul_board_modify(request, index_pk, modify_pk):
     if request.method == 'GET':
         selected_site = index.objects.get(pk=index_pk)
-        selected_article = PmAudit.objects.get(pk=modify_pk)
+        selected_article = Overhaul.objects.get(pk=modify_pk)
 
         context={'selected_site':selected_site, 'selected_article':selected_article} 
 
@@ -503,77 +503,77 @@ def overhaul_board_delete(request, index_pk, modify_pk):
 
 
 
-# ============================================= 수 정 중 ======================================================
+# # ============================================= 수 정 중 ======================================================
 
-def board_search(request, index_pk):
+# def board_search(request, index_pk):
    
-    select_site = index.objects.all().order_by('site_name')
+#     select_site = index.objects.all().order_by('site_name')
 
-    request_site = index_pk
-    selected_object = index.objects.get(pk=request_site)
+#     request_site = index_pk
+#     selected_object = index.objects.get(pk=request_site)
 
-# break fix--------------------------------------------------------------------------------------------------
-    selected_breakfix = selected_object.breakfix_set.all().order_by('-checked_date')
+# # break fix--------------------------------------------------------------------------------------------------
+#     selected_breakfix = selected_object.breakfix_set.all().order_by('-checked_date')
 
-    page = request.GET.get('pageBREAKFIX', 1)
-    paginator = Paginator(selected_breakfix, 4)
-    try:
-        breakfix_articles = paginator.page(page)
-    except PageNotAnInteger:
-        breakfix_articles = paginator.page(1)
-    except EmptyPage:
-        breakfix_articles = paginator.page(paginator.num_pages)
+#     page = request.GET.get('pageBREAKFIX', 1)
+#     paginator = Paginator(selected_breakfix, 4)
+#     try:
+#         breakfix_articles = paginator.page(page)
+#     except PageNotAnInteger:
+#         breakfix_articles = paginator.page(1)
+#     except EmptyPage:
+#         breakfix_articles = paginator.page(paginator.num_pages)
 
-# ETC --------------------------------------------------------------------------------------------------
+# # ETC --------------------------------------------------------------------------------------------------
     
-    selected_ETC = selected_object.etc_set.all().order_by('-checked_date', '-checked_ECT')
+#     selected_ETC = selected_object.etc_set.all().order_by('-checked_date', '-checked_ECT')
     
-    page = request.GET.get('pageETC', 1)
-    paginator = Paginator(selected_ETC, 4)
-    try:
-        ETC_articles = paginator.page(page)
-    except PageNotAnInteger:
-        ETC_articles = paginator.page(1)
-    except EmptyPage:
-        ETC_articles = paginator.page(paginator.num_pages)
+#     page = request.GET.get('pageETC', 1)
+#     paginator = Paginator(selected_ETC, 4)
+#     try:
+#         ETC_articles = paginator.page(page)
+#     except PageNotAnInteger:
+#         ETC_articles = paginator.page(1)
+#     except EmptyPage:
+#         ETC_articles = paginator.page(paginator.num_pages)
 
 
-# Pm audit --------------------------------------------------------------------------------------------------
+# # Pm audit --------------------------------------------------------------------------------------------------
     
-    selected_pmaudit = selected_object.pmaudit_set.all().order_by('-checked_date', '-checked_ECT')
+#     selected_pmaudit = selected_object.pmaudit_set.all().order_by('-checked_date', '-checked_ECT')
     
-    page = request.GET.get('page', 1)
-    paginator = Paginator(selected_pmaudit, 4)
-    try:
-        pmaudit_articles = paginator.page(page)
-    except PageNotAnInteger:
-        pmaudit_articles = paginator.page(1)
-    except EmptyPage:
-        pmaudit_articles = paginator.page(paginator.num_pages)
+#     page = request.GET.get('page', 1)
+#     paginator = Paginator(selected_pmaudit, 4)
+#     try:
+#         pmaudit_articles = paginator.page(page)
+#     except PageNotAnInteger:
+#         pmaudit_articles = paginator.page(1)
+#     except EmptyPage:
+#         pmaudit_articles = paginator.page(paginator.num_pages)
 
 
 
-# Overhaul --------------------------------------------------------------------------------------------------
+# # Overhaul --------------------------------------------------------------------------------------------------
     
-    selected_overhaul = selected_object.overhaul_set.all().order_by('-checked_date', '-checked_ECT')
+#     selected_overhaul = selected_object.overhaul_set.all().order_by('-checked_date', '-checked_ECT')
     
-    page = request.GET.get('page', 1)
-    paginator = Paginator(selected_overhaul, 4)
-    try:
-        pmaudit_articles = paginator.page(page)
-    except PageNotAnInteger:
-        pmaudit_articles = paginator.page(1)
-    except EmptyPage:
-        pmaudit_articles = paginator.page(paginator.num_pages)
+#     page = request.GET.get('page', 1)
+#     paginator = Paginator(selected_overhaul, 4)
+#     try:
+#         pmaudit_articles = paginator.page(page)
+#     except PageNotAnInteger:
+#         pmaudit_articles = paginator.page(1)
+#     except EmptyPage:
+#         pmaudit_articles = paginator.page(paginator.num_pages)
 
 
 
 
 
-    context={'select_site':select_site, 'selected_object':selected_object, 'selected_breakfix':selected_breakfix, 'breakfix_articles':breakfix_articles,
-    'selected_ETC':selected_ETC, 'ETC_articles':ETC_articles , 'pmaudit_articles':pmaudit_articles}
+#     context={'select_site':select_site, 'selected_object':selected_object, 'selected_breakfix':selected_breakfix, 'breakfix_articles':breakfix_articles,
+#     'selected_ETC':selected_ETC, 'ETC_articles':ETC_articles , 'pmaudit_articles':pmaudit_articles}
 
-    return render(request, 'all_board_search.html', context)
+#     return render(request, 'all_board_search.html', context)
 
 
 

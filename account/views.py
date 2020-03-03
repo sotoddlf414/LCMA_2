@@ -5,7 +5,7 @@ from django.contrib import auth
 
 def Signup(request):
     if request.method == 'POST':
-        if request.POST['Permitcode'] == 'kimjunsang':
+        if request.POST['Permitcode'] == '01067222887':
             if request.POST['password1'] == request.POST['password2']:
                 email = request.POST['email']
                 password = request.POST['password1']

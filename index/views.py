@@ -11,7 +11,7 @@ from django.contrib import auth
 
 def Index(request):
 
-    # if request.user.is_authenticated:
+    if request.user.is_authenticated:
 
         index_list = index.objects.all()
         results = []  #render 로 template 넘어갈 list  
@@ -52,8 +52,8 @@ def Index(request):
         # results = context['results']
 
         return render(request, 'index.html', context)
-    # else:
-    #     return redirect('account:Login')
+    else:
+        return redirect('account:Login')
 
 
 

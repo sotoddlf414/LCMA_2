@@ -17,7 +17,7 @@
 
 
 <div class="breakfix_form">
-  <span style="font-size: 25px; font-weight: bold; margin:10px;">Break fix</span>  <a href="{% url 'board:board_search' selected_site.id %}"><button class="btn btn-warning">Return</button></a>
+  <span style="font-size: 25px; font-weight: bold; margin:10px;">Break fix</span>  <a href="{% url 'board:board_list_enterance' selected_site.id %}"><button class="btn btn-warning">Return</button></a>
 <form action="" method="POST">
     {% csrf_token %}
     <div class="form-group">

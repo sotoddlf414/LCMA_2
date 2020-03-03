@@ -15,6 +15,9 @@
     <a class="navbar-brand" href="">{{selected_index}} & {{selected_hour.pub_date}} & ECT : {{selected_hour.ECT}}h & MRT : {{selected_hour.MRT}}h</a>
 </nav>
   <hr>
+  <div class="return" style="margin:20px;" >
+    <a href="{% url 'maintenance:timeform' selected_index.id %}"><button style=" width:75px;" type="button" class="btn btn-success">Return</button></a>
+  </div>
 <h4>Grease Status</h4>
 <table class="table table-striped" style="width:1500px; margin-left: 20PX;">
     <thead>

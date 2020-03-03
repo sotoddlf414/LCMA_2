@@ -25,6 +25,9 @@
 
 
 {% block content %}
+
+
+
 <header class="board_search_header">
     <label for="exampleFormControlSelect1">Select site & Machine</label>
         <div class="form-group">
@@ -40,13 +43,16 @@
         </div>
 </header>
 
-<div id="container">
-  
+<div class="return" style="margin:20px;" >
+  <a href="{% url 'board:board_list_enterance' selected_site.id %}"><button style=" width:75px;" type="button" class="btn btn-success">Return</button></a>
+</div>
 
+<div id="container">
+ 
     <div class="tableTotle" style="margin-left: 70px;">
-        <span style="font-size: 20px; font-weight: bold;">PM audit</span>
+        <span style="font-size: 20px; font-weight: bold;">MTK Overhaul Work</span>
         <span style="margin-left: 10px;">
-          <a href="{% url 'board:PMAUDIT_board_add' selected_site.id %}">
+          <a href="{% url 'board:overhaul_board_add' selected_site.id %}">
           <button type ="button" class="btn btn-success">Add Ariticle</button>
            </a> 
           </span>
@@ -76,8 +82,8 @@
     <td>{{list.checked_MRT}}</td>
    
     <td>{{list.title}}></td>
-          <td><a href="{% url 'board:PMAUDIT_board_modify' selected_site.id list.id %}"><button type="button" class="btn btn-primary">Modify</button></a></td>
-          <td><a href="{% url 'board:PMAUDIT_board_delete' selected_site.id list.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+          <td><a href="{% url 'board:overhaul_board_modify' selected_site.id list.id %}"><button type="button" class="btn btn-primary">Modify</button></a></td>
+          <td><a href="{% url 'board:overhaul_board_delete' selected_site.id list.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
         </tr>
       
        {% endfor %}
